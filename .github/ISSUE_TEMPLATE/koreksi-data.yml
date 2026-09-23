@@ -1,0 +1,42 @@
+name: Koreksi atau laporan
+description: Data salah, tempat tutup/pindah, bukan tempat IT, info lowongan, peringatan penipuan, atau permintaan hapus data.
+title: 'Koreksi: '
+labels: ['koreksi']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Isian ini tampil publik di GitHub**, jadi jangan menulis data pribadi.
+        Pemilik atau pengelola usaha yang ingin datanya dihapus cukup memilih "Minta hapus data".
+  - type: input
+    id: tempat
+    attributes:
+      label: Tempat yang dimaksud
+      description: Nama tempat dan tautan halamannya di direktori.
+    validations:
+      required: true
+  - type: dropdown
+    id: laporan
+    attributes:
+      label: Jenis laporan
+      options:
+        - 'Data salah atau kurang (kontak, alamat, nama, jenis)'
+        - 'Sudah tutup atau pindah'
+        - 'Bukan tempat berunsur informatika'
+        - 'Info lowongan atau program magang'
+        - 'Waspada penipuan yang mengatasnamakan tempat ini'
+        - 'Minta hapus data (pemilik atau pengelola)'
+    validations:
+      required: true
+  - type: textarea
+    id: rincian
+    attributes:
+      label: Rincian
+      description: Apa yang perlu diubah, dan data yang benar.
+    validations:
+      required: true
+  - type: input
+    id: sumber
+    attributes:
+      label: Sumber atau bukti (opsional)
+      description: Tautan halaman resmi, pengumuman, atau Google Maps.

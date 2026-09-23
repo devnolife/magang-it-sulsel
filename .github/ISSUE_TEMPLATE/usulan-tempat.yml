@@ -1,0 +1,62 @@
+name: Usulkan tempat
+description: Usulkan perusahaan atau instansi berunsur informatika di Sulawesi Selatan yang belum ada di direktori.
+title: 'Usulan: '
+labels: ['usulan']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Terima kasih sudah membantu! Usulan diperiksa pengelola sebelum masuk direktori.
+        **Isian ini tampil publik di GitHub**, jadi jangan menulis nomor HP pribadi atau data pribadi lain.
+  - type: input
+    id: nama
+    attributes:
+      label: Nama tempat
+      placeholder: PT Contoh Teknologi Nusantara
+    validations:
+      required: true
+  - type: dropdown
+    id: jenis
+    attributes:
+      label: Jenis
+      options:
+        - 'Software house & aplikasi'
+        - 'Konsultan IT & jaringan'
+        - 'ISP & telekomunikasi'
+        - 'Digital agency & kreatif'
+        - 'Instansi & divisi IT'
+        - 'Startup & coworking'
+        - 'Belum tahu'
+    validations:
+      required: true
+  - type: input
+    id: kabkota
+    attributes:
+      label: Kabupaten/kota
+      placeholder: Makassar
+    validations:
+      required: true
+  - type: input
+    id: lokasi
+    attributes:
+      label: Tautan Google Maps atau alamat
+      description: Tautan dari tombol "Bagikan" di Google Maps paling membantu.
+    validations:
+      required: true
+  - type: textarea
+    id: kontak
+    attributes:
+      label: Kontak resmi (opsional)
+      description: Situs web, email, telepon/WhatsApp kantor, Instagram, atau LinkedIn.
+  - type: textarea
+    id: magang
+    attributes:
+      label: Info magang (opsional)
+      description: Pernah menerima mahasiswa magang/PKL? Punya halaman karir? Sertakan tautannya bila ada.
+  - type: checkboxes
+    id: konfirmasi
+    attributes:
+      label: Konfirmasi
+      options:
+        - label: Tempat ini punya kegiatan informatika, bukan sekadar toko, servis komputer, atau konter pulsa.
+          required: true

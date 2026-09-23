@@ -36,7 +36,7 @@ if (r.skippedMahasiswa)
 	console.log(`  ${r.skippedMahasiswa} perusahaan usulan mahasiswa tidak disentuh`);
 if (r.missing.length) {
 	console.log(
-		`  ! ${r.missing.length} perusahaan pipeline tidak ada lagi di JSON (tidak dihapus; cek di /admin):`
+		`  ! ${r.missing.length} perusahaan pipeline tidak ada lagi di JSON (masih tampil; sembunyikan dengan \`npm run db:sembunyikan -- --hilang\`):`
 	);
 	for (const m of r.missing.slice(0, 30)) console.log(`    - ${m.id} ${m.nama}`);
 }

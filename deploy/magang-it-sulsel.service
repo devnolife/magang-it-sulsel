@@ -1,0 +1,25 @@
+[Unit]
+Description=Magang IT Sulsel (SvelteKit + SQLite)
+After=network.target
+
+[Service]
+Type=simple
+User=magang
+Group=magang
+WorkingDirectory=/opt/magang-it-sulsel
+Environment=NODE_ENV=production HOST=127.0.0.1 PORT=3000
+# ORIGIN dan DATABASE_PATH diisi di .env. Nilai di file ini menimpa Environment= di atas.
+EnvironmentFile=/opt/magang-it-sulsel/.env
+ExecStart=/usr/bin/node build
+Restart=on-failure
+RestartSec=3
+
+# Membuat /var/lib/magang-it-sulsel milik user magang; hanya folder ini yang boleh ditulis.
+StateDirectory=magang-it-sulsel
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

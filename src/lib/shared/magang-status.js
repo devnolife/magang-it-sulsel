@@ -10,7 +10,7 @@ export const MAGANG_STATUS = {
 		label: 'Terbukti menerima magang',
 		short: 'Terbukti magang',
 		keterangan:
-			'Ada pengalaman magang mahasiswa yang disetujui atau lowongan magang yang pernah dibuka.'
+			'Ada cerita magang mahasiswa yang sudah diperiksa pengelola, atau lowongan magang yang pernah dibuka.'
 	},
 	indikasi: {
 		label: 'Ada indikasi menerima magang',

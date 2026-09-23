@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { formatPhone, isMobile, normalizePhone, phoneFromWaUrl, waLink } from './phone.js';
 import { namaKey, randomId, slugify, uniqueSlug } from './slug.js';
-import { findArea, formatJarak, haversineKm, inBbox } from './geo.js';
+import { findArea, formatJarak, formatKoordinat, haversineKm, inBbox } from './geo.js';
 import { deriveMagangStatus, MAGANG_RE } from './magang-status.js';
 import { kabkotaFromText, kabkotaLabel, KABKOTA, SULSEL_BBOX } from './wilayah.js';
 import { toCsv } from './csv.js';
@@ -81,6 +81,11 @@ describe('geo', () => {
 		expect(formatJarak(0.23)).toBe('250 m');
 		expect(formatJarak(3.456)).toBe('3,5 km');
 		expect(formatJarak(42.4)).toBe('42 km');
+	});
+
+	it('formatKoordinat', () => {
+		expect(formatKoordinat(-5.1477, 119.4327)).toBe('5°08′52″ LS 119°25′58″ BT');
+		expect(formatKoordinat(0.5, -0.25)).toBe('0°30′00″ LU 0°15′00″ BB');
 	});
 
 	it('point in polygon dengan lubang dan multipolygon', () => {

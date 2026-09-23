@@ -1,0 +1,15 @@
+# Salin ke /etc/caddy/Caddyfile lalu ganti nama host.
+# Belum punya domain? Pakai IP dengan tanda hubung + sslip.io, mis. 203-0-113-10.sslip.io,
+# supaya Caddy tetap bisa mengambil sertifikat HTTPS. Samakan dengan ORIGIN di .env.
+magang.example.com {
+	encode zstd gzip
+
+	# Aset statis dilayani langsung oleh adapter-node, tidak lewat hooks.server.js.
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	reverse_proxy 127.0.0.1:3000
+}

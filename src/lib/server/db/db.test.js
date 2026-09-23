@@ -1,7 +1,19 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parseDataset } from '../../shared/company-schema.js';
-import { getCompanyBySlug, listCompanies, parseFilters, toFtsQuery } from '../companies.js';
+import {
+	diDomain,
+	getCompanyBySlug,
+	getStats,
+	hostDari,
+	listCompanies,
+	parseFilters,
+	toFtsQuery,
+	toListItem,
+	untukPublik
+} from '../companies.js';
+import { barisCsv, KOLOM_CSV } from '../ekspor.js';
+import { MAGANG_STATUS } from '../../shared/magang-status.js';
 import { addDays, importDataset } from './import.js';
 import { MIGRATIONS, migrate } from './migrations.js';
 import { openDb } from './open.js';
@@ -134,6 +146,22 @@ describe('db: query publik', () => {
 		expect(getCompanyBySlug(db, 'dinas-kominfo-contoh-parepare')).toBeNull();
 	});
 
+	it('kartu ringkas & statistik', () => {
+		const db = freshDb();
+		const [first] = listCompanies(db, f(''), { today: '2026-09-23' }).items;
+		const item = toListItem(first);
+		expect(item).toMatchObject({ slug: first.slug, origin: 'pipeline', magang: 'terbukti' });
+		expect(item).not.toHaveProperty('alamat');
+		expect(item.tags.length).toBeLessThanOrEqual(3);
+		db.prepare(`UPDATE companies SET hidden = 1 WHERE id = 'c_contoh06'`).run();
+		expect(getStats(db)).toMatchObject({
+			total: 5,
+			kabkota: 3,
+			perJenis: { software: 1, konsultan: 0, isp: 1, agency: 1, instansi: 1, startup: 1 },
+			pengalaman: 0
+		});
+	});
+
 	it('parseFilters membuang nilai tak dikenal', () => {
 		expect(f('kab=makassar,jakarta&jenis=servis&magang=terbukti&urut=aneh')).toEqual({
 			q: '',
@@ -142,6 +170,63 @@ describe('db: query publik', () => {
 			magang: ['terbukti'],
 			lowongan: false,
 			urut: 'relevansi'
+		});
+	});
+
+	it('hostDari & diDomain', () => {
+		expect(hostDari('https://WWW.Contoh.test/karir')).toBe('contoh.test');
+		expect(hostDari('bukan url')).toBeNull();
+		expect(diDomain('https://karir.contoh.test/x', 'contoh.test')).toBe(true);
+		expect(diDomain('https://contoh.test.jahat.id/', 'contoh.test')).toBe(false);
+		expect(diDomain('https://bukancontoh.test/', 'contoh.test')).toBe(false);
+		expect(diDomain('https://contoh.test/', null)).toBe(false);
+	});
+
+	it('untukPublik: situs dibajak tidak ditautkan, termasuk halaman karir & bukti di domainnya', () => {
+		const db = freshDb();
+		const detail = (/** @type {string} */ slug) => {
+			const d = getCompanyBySlug(db, slug, { today: '2026-09-23' });
+			if (!d) throw new Error(`tidak ada: ${slug}`);
+			return d;
+		};
+		const p = untukPublik({
+			...detail('contoh-kreatif-digital-makassar'),
+			url_karir: 'https://karir.contoh-kreatif.test/',
+			bukti: [
+				{ tipe: 'halaman-karir', url: 'https://contoh-kreatif.test/magang', kutipan: 'Magang' },
+				{ tipe: 'kurasi', url: 'https://glints.com/id/companies/x', kutipan: 'Glints' }
+			]
+		});
+		expect(p).toMatchObject({ website: null, web_host: 'contoh-kreatif.test', url_karir: null });
+		expect(p.bukti.map((b) => b.url)).toEqual([null, 'https://glints.com/id/companies/x']);
+		expect(p).not.toHaveProperty('hidden');
+		expect(p).not.toHaveProperty('updated_at');
+		expect(untukPublik(detail('contoh-software-house-makassar'))).toMatchObject({
+			website: 'https://contoh-software.test',
+			web_host: null,
+			url_karir: 'https://contoh-software.test/karir'
+		});
+	});
+
+	it('barisCsv: kolom tetap, telepon terformat, entri tersembunyi tidak ikut', () => {
+		const db = freshDb();
+		db.prepare(`UPDATE companies SET hidden = 1 WHERE id = 'c_contoh06'`).run();
+		const rows = barisCsv(db, f(''), {
+			urlDetail: (slug) => `https://x.test/perusahaan/${slug}`,
+			today: '2026-09-23'
+		});
+		expect(rows).toHaveLength(5);
+		expect(Object.keys(rows[0])).toEqual(KOLOM_CSV.map((k) => k.key));
+		expect(rows.find((r) => r.nama === 'Contoh Software House')).toMatchObject({
+			whatsapp: '0812-0000-0001',
+			kabkota: 'Kota Makassar',
+			status_magang: MAGANG_STATUS.terbukti.label,
+			url_karir: 'https://contoh-software.test/karir',
+			halaman: 'https://x.test/perusahaan/contoh-software-house-makassar'
+		});
+		expect(rows.find((r) => r.nama === 'Contoh Kreatif Digital')).toMatchObject({
+			website: null,
+			catatan: expect.stringContaining('dibajak')
 		});
 	});
 });

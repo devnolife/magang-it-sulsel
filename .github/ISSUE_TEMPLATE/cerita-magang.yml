@@ -1,0 +1,70 @@
+name: Cerita magang
+description: Bagikan pengalaman magang/PKL Anda supaya adik tingkat punya gambaran tentang tempatnya.
+title: 'Cerita magang: '
+labels: ['cerita-magang']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Cerita ini tampil publik di GitHub.** Boleh anonim; jangan menulis data pribadi Anda atau orang lain.
+  - type: input
+    id: tempat
+    attributes:
+      label: Tempat magang
+    validations:
+      required: true
+  - type: input
+    id: tahun
+    attributes:
+      label: Tahun magang
+      placeholder: '2025'
+    validations:
+      required: true
+  - type: dropdown
+    id: skema
+    attributes:
+      label: Skema
+      options:
+        - 'Magang mandiri'
+        - 'Program kampus'
+        - 'MBKM'
+        - 'PKL / kerja praktik'
+    validations:
+      required: true
+  - type: input
+    id: bidang
+    attributes:
+      label: Bidang atau posisi
+      placeholder: Web developer, jaringan, UI/UX, data, dan sebagainya
+    validations:
+      required: true
+  - type: input
+    id: durasi
+    attributes:
+      label: Durasi (bulan, opsional)
+  - type: dropdown
+    id: uang_saku
+    attributes:
+      label: Uang saku
+      options:
+        - 'Ada'
+        - 'Tidak ada'
+        - 'Tidak ingin menyebutkan'
+  - type: dropdown
+    id: sertifikat
+    attributes:
+      label: Sertifikat
+      options:
+        - 'Ada'
+        - 'Tidak ada'
+        - 'Tidak ingin menyebutkan'
+  - type: textarea
+    id: cerita
+    attributes:
+      label: Cerita singkat
+      description: Cara melamar, tugas yang dikerjakan, pembimbing, dan saran untuk yang ingin magang di sana.
+  - type: input
+    id: nama_tampil
+    attributes:
+      label: Nama tampil dan kampus (opsional)
+      placeholder: Anonim, Unismuh Makassar

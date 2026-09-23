@@ -27,12 +27,16 @@
 		"test": "npm run test:unit -- --run",
 		"db:migrate": "node --env-file-if-exists=.env scripts/db-migrate.js",
 		"db:import": "node --env-file-if-exists=.env scripts/db-import.js",
-		"admin:hash": "node scripts/admin-hash.js",
+		"db:sembunyikan": "node --env-file-if-exists=.env scripts/db-sembunyikan.js",
 		"pipeline": "node --env-file-if-exists=.env pipeline/cli.js",
+		"gen:lembar": "node scripts/gen-lembar.js",
 		"smoke": "node scripts/smoke.js"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
+		"@fontsource-variable/martian-mono": "^5.3.0",
+		"@fontsource-variable/schibsted-grotesk": "^5.3.0",
+		"@fontsource/young-serif": "^5.3.0",
 		"@sveltejs/adapter-node": "^5.5.4",
 		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",

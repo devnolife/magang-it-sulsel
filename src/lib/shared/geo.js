@@ -24,6 +24,21 @@ export function formatJarak(km) {
 }
 
 /**
+ * Koordinat gaya atlas, mis. "5°08′52″ LS 119°25′58″ BT".
+ * @param {number} lat
+ * @param {number} lng
+ */
+export function formatKoordinat(lat, lng) {
+	const dms = (/** @type {number} */ v) => {
+		const total = Math.round(Math.abs(v) * 3600);
+		const m = Math.floor((total % 3600) / 60);
+		const s = total % 60;
+		return `${Math.floor(total / 3600)}°${String(m).padStart(2, '0')}′${String(s).padStart(2, '0')}″`;
+	};
+	return `${dms(lat)} ${lat < 0 ? 'LS' : 'LU'} ${dms(lng)} ${lng < 0 ? 'BB' : 'BT'}`;
+}
+
+/**
  * Ray casting untuk satu ring [[lng, lat], ...].
  * @param {number} lng
  * @param {number} lat

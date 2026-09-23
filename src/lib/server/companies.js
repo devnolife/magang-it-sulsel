@@ -13,7 +13,7 @@ import { KABKOTA } from '../shared/wilayah.js';
  *   whatsapp: string | null, email: string | null, website: string | null, status_web: string,
  *   instagram: string | null, linkedin: string | null, maps_url: string | null, rating: number | null,
  *   jumlah_ulasan: number | null, magang: StatusMagang, lowongan_aktif: number, peringatan: boolean,
- *   tags: string[]
+ *   origin: 'pipeline' | 'mahasiswa', tags: string[]
  * }} Card
  */
 
@@ -67,7 +67,7 @@ export function toFtsQuery(q) {
 
 const CARD_COLS = `c.id, c.slug, c.nama, c.jenis, c.kabkota, c.kecamatan, c.alamat, c.lat, c.lng,
 	c.telepon, c.whatsapp, c.email, c.website, c.status_web, c.instagram, c.linkedin, c.maps_url,
-	c.rating, c.jumlah_ulasan, c.peringatan, c.magang_bukti, c.tags,
+	c.rating, c.jumlah_ulasan, c.peringatan, c.magang_bukti, c.tags, c.origin,
 	(SELECT COUNT(*) FROM experiences e WHERE e.company_id = c.id AND e.hidden = 0) AS n_pengalaman,
 	(SELECT COUNT(*) FROM openings o WHERE o.company_id = c.id AND o.hidden = 0 AND o.is_magang = 1) AS n_lowongan_magang,
 	(SELECT COUNT(*) FROM openings o WHERE o.company_id = c.id AND o.hidden = 0 AND o.kedaluwarsa_pada >= @today) AS n_lowongan_aktif`;
@@ -104,10 +104,43 @@ function toCard(r) {
 		}),
 		lowongan_aktif: r.n_lowongan_aktif,
 		peringatan: !!r.peringatan,
+		origin: r.origin,
 		tags: JSON.parse(r.tags || '[]'),
 		_rank: r.rank ?? 0
 	};
 }
+
+/**
+ * Kartu ringkas untuk daftar & peta di halaman depan. Seluruh hasil dikirim sekaligus
+ * (urut terdekat dihitung di klien), jadi field yang hanya dipakai halaman detail dibuang.
+ * @param {Card} c
+ */
+export function toListItem(c) {
+	return {
+		slug: c.slug,
+		nama: c.nama,
+		jenis: c.jenis,
+		kabkota: c.kabkota,
+		kecamatan: c.kecamatan,
+		lat: c.lat,
+		lng: c.lng,
+		telepon: c.telepon,
+		whatsapp: c.whatsapp,
+		email: c.email,
+		website: c.website,
+		instagram: c.instagram,
+		maps_url: c.maps_url,
+		rating: c.rating,
+		jumlah_ulasan: c.jumlah_ulasan,
+		magang: c.magang,
+		lowongan_aktif: c.lowongan_aktif,
+		peringatan: c.peringatan,
+		origin: c.origin,
+		tags: c.tags.slice(0, 3)
+	};
+}
+
+/** @typedef {ReturnType<typeof toListItem>} ListItem */
 
 const MAGANG_WEIGHT = { terbukti: 4, indikasi: 2, belum: 0 };
 
@@ -279,6 +312,49 @@ export function getCompanyBySlug(db, slug, opts = {}) {
 /** @typedef {NonNullable<ReturnType<typeof getCompanyBySlug>>} CompanyDetail */
 
 /**
+ * Host tanpa "www.", atau null bila bukan URL.
+ * @param {string | null | undefined} url
+ */
+export function hostDari(url) {
+	if (!url) return null;
+	try {
+		return new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+	} catch {
+		return null;
+	}
+}
+
+/**
+ * Apakah `url` berada di domain `host` (termasuk subdomainnya).
+ * @param {string | null | undefined} url
+ * @param {string | null} host
+ */
+export function diDomain(url, host) {
+	const h = host && hostDari(url);
+	return !!h && (h === host || h.endsWith(`.${host}`));
+}
+
+/**
+ * Data detail untuk halaman publik. Situs yang mati/dibajak tidak pernah ditautkan, termasuk
+ * halaman karir dan bukti di domain yang sama; host-nya tetap dikirim untuk teks peringatan.
+ * @param {CompanyDetail} c
+ */
+export function untukPublik(c) {
+	const { hidden: _hidden, updated_at: _updated, website, ...rest } = c;
+	const aktif = c.status_web === 'aktif';
+	const hostBermasalah = aktif ? null : hostDari(website);
+	return {
+		...rest,
+		website: aktif ? website : null,
+		web_host: hostBermasalah,
+		url_karir: diDomain(c.url_karir, hostBermasalah) ? null : c.url_karir,
+		bukti: c.bukti.map((b) => (diDomain(b.url, hostBermasalah) ? { ...b, url: null } : b))
+	};
+}
+
+/** @typedef {ReturnType<typeof untukPublik>} CompanyPublik */
+
+/**
  * @param {import('better-sqlite3').Database} db
  * @param {string} id
  */
@@ -307,11 +383,20 @@ export function getStats(db) {
 	const total = /** @type {number} */ (
 		db.prepare('SELECT COUNT(*) FROM companies WHERE hidden = 0').pluck().get()
 	);
+	const kabkota = /** @type {number} */ (
+		db.prepare('SELECT COUNT(DISTINCT kabkota) FROM companies WHERE hidden = 0').pluck().get()
+	);
+	const rows = /** @type {{ jenis: Jenis, n: number }[]} */ (
+		db.prepare('SELECT jenis, COUNT(*) AS n FROM companies WHERE hidden = 0 GROUP BY jenis').all()
+	);
+	/** @type {Record<Jenis, number>} */
+	const perJenis = /** @type {any} */ (Object.fromEntries(JENIS_KEYS.map((k) => [k, 0])));
+	for (const r of rows) if (JENIS_SET.has(r.jenis)) perJenis[r.jenis] = r.n;
 	const pengalaman = /** @type {number} */ (
 		db.prepare('SELECT COUNT(*) FROM experiences WHERE hidden = 0').pluck().get()
 	);
 	const lastImport = /** @type {string | undefined} */ (
 		db.prepare(`SELECT value FROM meta WHERE key = 'last_import_dataset'`).pluck().get()
 	);
-	return { total, pengalaman, lastImport: lastImport || null };
+	return { total, kabkota, perJenis, pengalaman, lastImport: lastImport || null };
 }
