@@ -175,6 +175,7 @@ export function parseFeedHtml(html, ctx = {}) {
 			.toArray()
 			.map((row) => segments($, row));
 		const first = rows[0] || [];
+		/** @type {string | null} */
 		let kategori = first[0] ?? null;
 		let alamatParts = first.slice(1);
 		if (kategori && (PHONE_RE.test(kategori) || looksLikeAddress(kategori))) {
@@ -275,7 +276,9 @@ export function parsePlaceHtml(html, url, ctx = {}) {
 	const telId = $('[data-item-id^="phone:tel:"]').attr('data-item-id');
 	const telepon = telId ? telId.slice('phone:tel:'.length) : null;
 
+	/** @type {number | null} */
 	let rating = null;
+	/** @type {number | null} */
 	let ulasan = null;
 	const f7 = cleanText($('div.F7nice').first().text()); // "5,0(21)"
 	const m = f7.match(/^(\d(?:[.,]\d)?)\s*\(([\d.,]+)\)/);

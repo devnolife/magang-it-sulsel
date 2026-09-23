@@ -20,6 +20,7 @@ export async function runGeo() {
 	/** @type {any[]} */
 	const rels = data.elements.filter((/** @type {any} */ e) => e.type === 'relation');
 
+	/** @type {any[]} */
 	const kabFeatures = [];
 	for (const rel of rels.filter((r) => r.tags.admin_level === '5')) {
 		const slug = kabkotaFromText(rel.tags.name);
@@ -47,6 +48,7 @@ export async function runGeo() {
 	kabFeatures.sort((a, b) => a.properties.slug.localeCompare(b.properties.slug));
 	const kabFc = { type: 'FeatureCollection', features: kabFeatures };
 
+	/** @type {any[]} */
 	const kecFeatures = [];
 	for (const rel of rels.filter((r) => r.tags.admin_level === '6')) {
 		const geom = relationToGeometry(rel);

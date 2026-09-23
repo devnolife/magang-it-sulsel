@@ -89,11 +89,10 @@ export function toRow(c) {
 /**
  * @param {import('better-sqlite3').Database} db
  * @param {import('../../shared/company-schema.js').Dataset} dataset hasil parseDataset()
- * @param {{ today?: string, hash?: string | null }} [opts]
+ * @param {{ hash?: string | null }} [opts]
  * @returns {ImportReport}
  */
 export function importDataset(db, dataset, opts = {}) {
-	const today = opts.today || new Date().toISOString().slice(0, 10);
 	/** @type {ImportReport} */
 	const report = {
 		total: dataset.perusahaan.length,
@@ -125,8 +124,7 @@ export function importDataset(db, dataset, opts = {}) {
 		for (const c of dataset.perusahaan) {
 			seen.add(c.id);
 			const row = toRow(c);
-			/** @type {Record<string, any> | undefined} */
-			const existing = getById.get(c.id);
+			const existing = /** @type {Record<string, any> | undefined} */ (getById.get(c.id));
 			if (!existing) {
 				const wanted = /** @type {string} */ (row.slug);
 				if (slugOwner.get(wanted)) {

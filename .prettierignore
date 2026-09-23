@@ -13,3 +13,4 @@ bun.lockb
 /pipeline/seed/
 /tests/fixtures/
 /var/
+/pipeline/config/kecamatan.geojson

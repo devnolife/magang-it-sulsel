@@ -193,7 +193,10 @@ export function interiorPoint(g) {
 	}
 	cx /= ring.length;
 	cy /= ring.length;
-	const geom = { type: 'Polygon', coordinates: best };
+	const geom = /** @type {{ type: 'Polygon', coordinates: Ring[] }} */ ({
+		type: 'Polygon',
+		coordinates: best
+	});
 	if (pointInGeometry(cy, cx, geom)) return [cy, cx];
 	// Garis horizontal lewat cy: ambil tengah potongan terlebar yang berada di dalam.
 	/** @type {number[]} */

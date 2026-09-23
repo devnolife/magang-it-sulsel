@@ -17,7 +17,7 @@ const sample = parseDataset(
 
 function freshDb() {
 	const db = openDb(':memory:');
-	importDataset(db, sample, { today: '2026-09-23' });
+	importDataset(db, sample);
 	return db;
 }
 
@@ -32,9 +32,9 @@ describe('db: migrasi & import', () => {
 
 	it('import awal lalu ulang tanpa perubahan', () => {
 		const db = openDb(':memory:');
-		const r1 = importDataset(db, sample, { today: '2026-09-23' });
+		const r1 = importDataset(db, sample);
 		expect(r1).toMatchObject({ inserted: 6, updated: 0, openings: 1 });
-		const r2 = importDataset(db, sample, { today: '2026-09-23' });
+		const r2 = importDataset(db, sample);
 		expect(r2).toMatchObject({ inserted: 0, updated: 0, unchanged: 6 });
 	});
 
@@ -49,7 +49,7 @@ describe('db: migrasi & import', () => {
 		const changed = structuredClone(sample);
 		changed.perusahaan[1].nama = 'Nama Pipeline Baru';
 		changed.perusahaan[1].telepon = '+62411999999';
-		const r = importDataset(db, changed, { today: '2026-09-23' });
+		const r = importDataset(db, changed);
 		expect(r.updated).toBe(1);
 		expect(r.lockedSkips).toEqual([{ id: 'c_contoh02', field: 'nama' }]);
 		const row = /** @type {any} */ (
@@ -63,7 +63,7 @@ describe('db: migrasi & import', () => {
 	it('tidak menghapus perusahaan yang hilang dari JSON, hanya melaporkan', () => {
 		const db = freshDb();
 		const smaller = { ...sample, jumlah: 5, perusahaan: sample.perusahaan.slice(1) };
-		const r = importDataset(db, smaller, { today: '2026-09-23' });
+		const r = importDataset(db, smaller);
 		expect(r.missing.map((m) => m.id)).toEqual(['c_contoh01']);
 		const row = /** @type {any} */ (
 			db.prepare(`SELECT missing_from_import, hidden FROM companies WHERE id = 'c_contoh01'`).get()
@@ -76,7 +76,7 @@ describe('db: migrasi & import', () => {
 		db.prepare(
 			`INSERT INTO companies (id, slug, nama, jenis, kabkota, origin) VALUES ('c_mhs00001', 'contoh-net-gowa', 'X', 'isp', 'gowa', 'mahasiswa')`
 		).run();
-		const r = importDataset(db, sample, { today: '2026-09-23' });
+		const r = importDataset(db, sample);
 		expect(r.slugConflicts).toEqual([
 			{ id: 'c_contoh02', wanted: 'contoh-net-gowa', got: 'contoh-net-gowa-2' }
 		]);

@@ -9,7 +9,7 @@ import {
 	unwrapGoogleRedirect
 } from './maps-parse.js';
 
-const fixture = (name) =>
+const fixture = (/** @type {string} */ name) =>
 	readFileSync(new URL(`../../tests/fixtures/${name}`, import.meta.url), 'utf8');
 
 describe('maps-parse', () => {
