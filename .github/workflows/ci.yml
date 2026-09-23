@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Cek tipe (svelte-check)
+        run: npm run check
+
+      - name: Lint (prettier + eslint)
+        run: npm run lint
+
+      - name: Test (vitest)
+        run: npm test
+
+      # Import ke DB sementara di memori: memvalidasi skema data/companies.json + logika import.
+      - name: Validasi dataset
+        if: hashFiles('data/companies.json') != ''
+        run: npm run db:import
+        env:
+          DATABASE_PATH: ':memory:'
+
+      - name: Build
+        run: npm run build
