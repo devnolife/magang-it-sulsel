@@ -1,0 +1,62 @@
+{
+	"name": "magang-it-sulsel",
+	"private": true,
+	"version": "0.1.0",
+	"description": "Direktori perusahaan & instansi berunsur informatika di Sulawesi Selatan untuk mahasiswa yang mencari tempat magang.",
+	"license": "MIT",
+	"author": "devnolife",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/devnolife/magang-it-sulsel.git"
+	},
+	"type": "module",
+	"engines": {
+		"node": ">=22.12"
+	},
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"start": "node --env-file-if-exists=.env build",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write .",
+		"test:unit": "vitest",
+		"test": "npm run test:unit -- --run",
+		"db:migrate": "node --env-file-if-exists=.env scripts/db-migrate.js",
+		"db:import": "node --env-file-if-exists=.env scripts/db-import.js",
+		"admin:hash": "node scripts/admin-hash.js",
+		"pipeline": "node --env-file-if-exists=.env pipeline/cli.js",
+		"smoke": "node scripts/smoke.js"
+	},
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@sveltejs/adapter-node": "^5.5.4",
+		"@sveltejs/kit": "^2.63.0",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@types/better-sqlite3": "^9.6.0",
+		"@types/leaflet": "^1.9.22",
+		"@types/leaflet.markercluster": "^1.5.6",
+		"@types/node": "^24",
+		"eslint": "^10.4.1",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-svelte": "^3.19.0",
+		"globals": "^17.6.0",
+		"leaflet": "^1.9.4",
+		"leaflet.markercluster": "^1.5.3",
+		"playwright-core": "^1.63.0",
+		"prettier": "^3.8.3",
+		"prettier-plugin-svelte": "^4.1.0",
+		"svelte": "^5.56.1",
+		"svelte-check": "^4.6.0",
+		"typescript": "^6.0.3",
+		"vite": "^8.0.16",
+		"vitest": "^4.1.8"
+	},
+	"dependencies": {
+		"better-sqlite3": "^13.0.3",
+		"zod": "^4.6.5"
+	}
+}
