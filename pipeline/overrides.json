@@ -1,4 +1,49 @@
 {
 	"_petunjuk": "Keputusan manual yang menang atas aturan skor & AI. Kunci entri: key kandidat dari pipeline/cache/merged.json (mis. \"maps:0x2dbe...:0x1a2b...\" atau \"osm:node/123\"), key seed (\"kurasi:contoh.co.id\"), atau domain website (\"contoh.co.id\"). Isi: masuk (wajib, true/false); opsional jenis (software|konsultan|isp|agency|startup|instansi), alasan (tampil di laporan), nama (koreksi nama tampil), deskripsi, catatan. Jalankan ulang `classify` lalu `export` setelah mengubah file ini.",
-	"entri": {}
+	"entri": {
+		"maps:0x2dbefbe4991a1f93:0x8767a705004ca840": {
+			"masuk": false,
+			"alasan": "Klinik gigi (GoDentist), bukan perusahaan IT"
+		},
+		"maps:0x2dbee3055d112597:0x1657949f9b0d6b74": {
+			"masuk": false,
+			"alasan": "Usaha inti servis komputer/laptop"
+		},
+		"maps:0x2dbef869c50d7831:0x2036f2cf415b5205": {
+			"masuk": false,
+			"alasan": "Alat & jasa servis HP"
+		},
+		"maps:0x2d905959d15c80d1:0xdb4a6826f484e345": {
+			"masuk": false,
+			"alasan": "Media berita daring, bukan perusahaan IT"
+		},
+		"maps:0x2d9059a9693d821d:0xdaa6d185f48633f3": {
+			"masuk": false,
+			"alasan": "Pemasar afiliasi perorangan"
+		},
+		"maps:0x2dbefd549d3231c1:0x370202de457924d4": {
+			"masuk": false,
+			"alasan": "Penjual/instalasi game PC"
+		},
+		"maps:0x2d95e6ee13edf387:0x97a0e8485b41415f": {
+			"masuk": false,
+			"alasan": "Jasa servis"
+		},
+		"maps:0x51556a5575264b5:0xee4d800efdae78a9": {
+			"masuk": false,
+			"alasan": "Toko perangkat keras (lapak marketplace)"
+		},
+		"maps:0x2dbee33b72acd2d9:0xf4af31deeafb79ee": {
+			"masuk": false,
+			"alasan": "Nama berupa alamat rumah; usaha tidak jelas"
+		},
+		"maps:0x2dbee3df1807e8b7:0x2169a1b121de9f00": {
+			"masuk": false,
+			"alasan": "Agen penjualan IndiHome, bukan kantor ISP"
+		},
+		"maps:0x2dbefb39c58d7211:0x8f4b010ab7a271e4": {
+			"masuk": false,
+			"alasan": "Agen pemasangan MyRepublic di rumah, bukan kantor ISP"
+		}
+	}
 }

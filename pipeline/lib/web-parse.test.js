@@ -54,6 +54,11 @@ describe('analisisHalaman', () => {
 			'http://contoh.id/'
 		);
 		expect(nginx).toMatchObject({ status: 'mati' });
+		const suspend = analisisHalaman(
+			'<title>Hosted by DomaiNesia - Sorry your website is suspended</title><p>Sorry your website is suspended, please contact our Customer Supports.</p>',
+			'https://contoh.web.id/'
+		);
+		expect(suspend).toMatchObject({ status: 'mati' });
 	});
 
 	it('spam judi tersembunyi atau judul berhuruf Jepang = dibajak', () => {

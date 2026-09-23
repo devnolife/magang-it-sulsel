@@ -9,7 +9,7 @@ const JUDUL_MATI =
 	/^(welcome to nginx|apache2? .*default page|test page for|index of \/|iis windows server|default (web )?(site )?page|web server'?s default page|account suspended|suspended|domain .*(for sale|dijual)|this domain|parked|hugedomains|site not found|website not found|domain (has )?expired|404 not found|403 forbidden|coming soon|under construction|website (sedang )?(dalam )?(perbaikan|maintenance)|maintenance mode)\b/i;
 /** Isi halaman pendek yang menandakan domain parkir / kedaluwarsa / belum dipasang. */
 const ISI_MATI =
-	/(this domain (may be |is )?for sale|buy this domain|domain (ini )?(sedang )?dijual|parked (free|by|domain)|parkingcrew|sedoparking|account (has been )?suspended|akun .{0,40}(ditangguhkan|disuspend)|hosting .{0,40}(berakhir|expired|habis)|domain .{0,40}(expired|kedaluwarsa|kadaluarsa)|future home of something quite cool|there is no website configured|domain not configured|it works!|default (web )?page|coming soon|under construction|segera hadir)/i;
+	/(this domain (may be |is )?for sale|buy this domain|domain (ini )?(sedang )?dijual|parked (free|by|domain)|parkingcrew|sedoparking|(account|website|site|situs)( anda| ini)? (is |has been |telah |sedang )?(suspended|ditangguhkan|disuspend)|akun .{0,40}(ditangguhkan|disuspend)|hosting .{0,40}(berakhir|expired|habis)|domain .{0,40}(expired|kedaluwarsa|kadaluarsa)|future home of something quite cool|there is no website configured|domain not configured|it works!|default (web )?page|coming soon|under construction|segera hadir)/i;
 
 /** Istilah spam judi (situs dibajak). Kata umum ("judi" di berita) sengaja tidak masuk. */
 const JUDI =

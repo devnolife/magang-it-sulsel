@@ -112,7 +112,7 @@ export function jaccard(a, b) {
 
 /** Host yang bukan identitas perusahaan (media sosial, pemendek tautan, marketplace). */
 const HOST_UMUM =
-	/(^|\.)(facebook\.com|fb\.com|fb\.me|instagram\.com|linktr\.ee|wa\.me|whatsapp\.com|bit\.ly|s\.id|tiktok\.com|youtube\.com|youtu\.be|twitter\.com|x\.com|t\.me|linkedin\.com|google\.com|goo\.gl|g\.page|g\.co|shopee\.co\.id|tokopedia\.com|bukalapak\.com|lynk\.id|heylink\.me|taplink\.cc|linkbio\.co|msha\.ke|wixsite\.com)$/i;
+	/(^|\.)(facebook\.com|fb\.com|fb\.me|instagram\.com|linktr\.ee|wa\.me|whatsapp\.com|bit\.ly|s\.id|tiktok\.com|youtube\.com|youtu\.be|twitter\.com|x\.com|t\.me|linkedin\.com|google\.com|goo\.gl|g\.page|g\.co|shopee\.co\.id|tokopedia\.com|bukalapak\.com|lynk\.id|heylink\.me|taplink\.cc|linkbio\.co|msha\.ke|wixsite\.com|behance\.net|dribbble\.com)$/i;
 
 /** @param {string | null | undefined} url */
 export function hostOf(url) {
@@ -296,15 +296,38 @@ export function samaTempat(a, b) {
 		) * 1000;
 	if (d > 1000) return false;
 	const sim = jaccard(a.tokens, b.tokens);
+	if (a.domain && a.domain === b.domain && d <= 50) return true;
 	if (a.nk && a.nk === b.nk && d <= 300) return true;
 	if (sim >= 0.5 && d <= 150) return true;
-	if (a.domain && a.domain === b.domain && d <= 150 && sim >= 0.2) return true;
+	if (a.domain && a.domain === b.domain && d <= 500 && sim >= 0.2) return true;
 	// Aturan lemah nama (telepon, jarak sangat dekat) tidak berlaku bila websitenya berbeda: unit
 	// kampus/anak usaha sering memakai nomor induk yang sama ("ICT CENTER" vs "Universitas ...").
 	if (a.domain && b.domain && a.domain !== b.domain) return false;
 	if (a.phone && a.phone === b.phone && d <= 300) return true;
 	if (d <= 25 && sim >= 0.34) return true;
 	return false;
+}
+
+/** Listing instansi bernama umum ("Kantor BPS"); penggabungannya diurus leburInstansi. */
+const NAMA_INSTANSI =
+	/\b(dinas|badan|kantor|bps|kominfo\w*|diskominfo\w*|pemerintah|pemkab|pemkot)\b/;
+
+/**
+ * Satu usaha dengan dua pin Maps berjauhan (pindah alamat, listing dobel): nama bersih identik
+ * dalam 3 km, ditambah bukti lain (domain/telepon sama) atau nama yang cukup khas. Cabang
+ * jaringan punya nama berbeda ("Biznet Branch Makassar Maccini"), jadi tetap terpisah.
+ * @param {Prep} a
+ * @param {Prep} b
+ */
+export function pinGanda(a, b) {
+	if (!a.nk || a.nk !== b.nk) return false;
+	if (a.t.lat == null || b.t.lat == null || a.t.lng == null || b.t.lng == null) return false;
+	if (a.domain && b.domain && a.domain !== b.domain) return false;
+	const d = haversineKm({ lat: a.t.lat, lng: a.t.lng }, { lat: b.t.lat, lng: b.t.lng });
+	if (d > 3) return false;
+	if (a.domain && a.domain === b.domain) return true;
+	if (a.phone && a.phone === b.phone) return true;
+	return a.nk.length >= 4 && a.nk.split(' ').some((t) => !GENERIK_NAMA.has(t));
 }
 
 /**
@@ -388,6 +411,21 @@ export function klasterkan(places) {
 			if (Math.abs(/** @type {number} */ (b.t.lng) - /** @type {number} */ (a.t.lng)) > 0.01)
 				continue;
 			if (samaTempat(a, b)) dsu.union(a.i, b.i);
+		}
+	}
+	/** @type {Map<string, Prep[]>} */
+	const byNk = new Map();
+	for (const p of located) {
+		if (!p.nk || NAMA_INSTANSI.test(p.nk)) continue;
+		const g = byNk.get(p.nk);
+		if (g) g.push(p);
+		else byNk.set(p.nk, [p]);
+	}
+	for (const g of byNk.values()) {
+		for (let x = 0; x < g.length; x++) {
+			for (let y = x + 1; y < g.length; y++) {
+				if (pinGanda(g[x], g[y])) dsu.union(g[x].i, g[y].i);
+			}
 		}
 	}
 	/** @type {Map<number, Tempat[]>} */

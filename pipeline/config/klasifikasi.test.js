@@ -80,6 +80,33 @@ describe('skorAturan: buang', () => {
 			}).putusan
 		).toBe('buang');
 		expect(nilai('Telkom STO Pangkep', ['Penyedia Layanan Telekomunikasi']).putusan).toBe('buang');
+		for (const nama of [
+			'3KiosK Parepare Pusat Distribusi & Layanan Resmi Tri',
+			'Service Point Smartfren Urip Sumohardjo Makasar',
+			'XL Center Makassar (XL Satu | AXIS)',
+			'Indosat Griya Bulukumba',
+			'Telkom Wifi Corner'
+		]) {
+			expect(
+				nilai(nama, ['Penyedia Layanan Telekomunikasi'], { jumlah_ulasan: 400 }).putusan,
+				nama
+			).toBe('buang');
+		}
+		expect(
+			nilai('MSC KIMA INDOSAT Makassar', ['Penyedia Layanan Telekomunikasi'], {
+				website: 'http://indosatooredoo.com/'
+			}).putusan
+		).toBe('masuk');
+	});
+
+	it('kategori web hosting: jasa website → software, penyedia hosting → isp', () => {
+		expect(nilai('Jasa Pembuatan Website Makassar Terbaik', ['Layanan Web Hosting'])).toMatchObject(
+			{ putusan: 'masuk', jenis: 'software' }
+		);
+		expect(nilai('Rumahweb Hosting Makassar', ['Layanan Web Hosting'])).toMatchObject({
+			putusan: 'masuk',
+			jenis: 'isp'
+		});
 	});
 
 	it('kantor pemerintah non-IT, sekretariat, toko, dan kursus', () => {

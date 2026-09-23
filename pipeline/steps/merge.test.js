@@ -223,6 +223,50 @@ describe('kumpulkanMaps & klasterkan', () => {
 			['maps:0x4:0x4']
 		]);
 	});
+
+	it('pin ganda: nama identik ≤3 km, domain sama berdekatan; cabang & nama generik terpisah', () => {
+		/** @param {string} id @param {string} nama @param {number} lat @param {number} [lng] @param {string | null} [website] */
+		const at = (id, nama, lat, lng = 119.4, website = null) =>
+			tempat({ google_fid: id, nama, lat, lng, website });
+		const clusters = klasterkan([
+			at('a1', 'PT. Fortinusa', -5.1, 119.4, 'https://fortinusa.co.id'),
+			at('a2', 'PT Fortinusa', -5.112),
+			at('b1', 'Makassar Website', -5.2, 119.4, 'https://makassarwebsite.com/'),
+			at('b2', 'Makassar Website', -5.225, 119.4, 'https://www.makassarwebsite.com'),
+			at('c1', 'Jasa Pembuatan Website', -5.3),
+			at('c2', 'Jasa Pembuatan Website', -5.32),
+			at('d1', 'Karya Net', -5.4, 119.4, 'https://karyanet.id/'),
+			at('d2', 'Karya Net', -5.4111, 119.4, 'https://karya-net.com/'),
+			at('e1', 'Myrepublic', -5.5, 119.4),
+			at('e2', 'Myrepublic', -5.5, 119.44),
+			at('f1', 'Kantor BPS', -5.6),
+			at('f2', 'Kantor BPS', -5.615),
+			at('g1', 'DTC Teknologi - PT.Docotel Teknologi Celebes', -5.7, 119.4, 'https://dtc.co.id/'),
+			at('g2', 'PT Docotel Teknologi Celebes', -5.7036, 119.4, 'https://dtc.co.id/'),
+			at(
+				'h1',
+				'Jasa Pembuatan Website Profesional Makassar',
+				-5.8,
+				119.4,
+				'http://just-akmal.com/'
+			),
+			at('h2', 'JA Web Design', -5.8003, 119.4, 'https://just-akmal.com/')
+		]);
+		expect(clusters.map((c) => c.map((t) => t.key).sort()).sort()).toEqual([
+			['maps:a1', 'maps:a2'],
+			['maps:b1', 'maps:b2'],
+			['maps:c1'],
+			['maps:c2'],
+			['maps:d1'],
+			['maps:d2'],
+			['maps:e1'],
+			['maps:e2'],
+			['maps:f1'],
+			['maps:f2'],
+			['maps:g1', 'maps:g2'],
+			['maps:h1', 'maps:h2']
+		]);
+	});
 });
 
 describe('susunKandidat', () => {

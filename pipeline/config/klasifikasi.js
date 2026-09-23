@@ -26,7 +26,7 @@ const KATEGORI_IT = [
 		6,
 		'konsultan'
 	],
-	[/^(Pusat data|Layanan Web Hosting)$/i, 6, 'isp'],
+	[/^Pusat data$/i, 6, 'isp'],
 	[/^Studio animasi$/i, 6, 'agency'],
 	[/^Coworking space$|Coworking Space$/i, 5, 'startup'],
 	// "Computer support and services": banyak juga servis laptop/toko; kategori saja belum cukup.
@@ -105,9 +105,9 @@ const NAMA_SEDANG =
 const NAMA_AKHIRAN = /\b[a-z]{3,}(tech|soft|ware|code|dev|labs?|digital|data|sys)\b/i;
 const NAMA_SINGKATAN = /\b(IT|ICT|AI|IoT)\b/;
 
-/** Nama: gerai/konter/menara bukan kantor tempat magang (-6). */
+/** Nama: gerai/konter/menara/titik layanan operator bukan kantor tempat magang (-6). */
 const NAMA_GERAI =
-	/\b(grapari\w*|plasa|plaza|gerai|outlet|kios|konter|counter|warnet|internet caf+e|sto|bts|tower)\b/i;
+	/\b(grapari\w*|plasa|plaza|gerai|outlet|kios|\d*kiosk\w*|konter|counter|warnet|internet caf+e|sto|bts|tower|service point|wifi corner|(xl|axis|indosat|im3|smartfren|telkomsel|tri) ?(cent(er|re)|store|shop|galeri|gallery|griya|point))\b/i;
 
 /** Nama: lembaga pendidikan/pelatihan (dikecualikan dari direktori, -6). */
 const NAMA_PENDIDIKAN =
@@ -172,6 +172,13 @@ export function skorKategori(kategori, k) {
 		return jelas
 			? { skor: penuh, jenis: 'isp', label: kategori }
 			: { skor: 0, jenis: 'isp', label: `${kategori} (usaha kecil)` };
+	}
+	// "Web hosting service" lebih sering dipilih jasa pembuatan website daripada penyedia hosting.
+	if (/^Layanan Web Hosting$/i.test(kategori)) {
+		const jenis = /\b(hosting|server|cloud|vps|domain|data ?cent(er|re))\b/i.test(nama)
+			? 'isp'
+			: 'software';
+		return { skor: 6, jenis, label: kategori };
 	}
 	for (const [re, skor, jenis] of KATEGORI_IT) {
 		if (re.test(kategori)) return { skor, jenis, label: kategori };
