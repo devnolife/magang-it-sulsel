@@ -287,6 +287,8 @@ export function parsePlaceHtml(html, url, ctx = {}) {
 		ulasan = Number(m[2].replace(/[.,]/g, ''));
 	} else {
 		$('span[role="img"][aria-label]').each((_, el) => {
+			// Kartu usaha lain di bagian "Di tempat ini" (halaman alamat gedung) bukan rating tempat ini.
+			if ($(el).closest('[role="article"]').length) return;
 			const p = parseRatingLabel($(el).attr('aria-label'));
 			if (rating == null && p.rating != null) rating = p.rating;
 			if (ulasan == null && p.ulasan != null) ulasan = p.ulasan;

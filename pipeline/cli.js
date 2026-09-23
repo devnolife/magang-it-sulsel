@@ -1,6 +1,15 @@
 #!/usr/bin/env node
 // Pipeline data magang-it-sulsel. Jalankan: npm run pipeline -- <tahap> [opsi]
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
+
+// .env dibaca sebelum modul tahap diimpor (paths.js dsb. membaca env saat diimpor).
+try {
+	process.loadEnvFile(path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '.env'));
+} catch {
+	// .env opsional
+}
 
 const HELP = `Pemakaian: npm run pipeline -- <tahap> [opsi]
 
@@ -20,6 +29,7 @@ Opsi:
   --kab <slug>     batasi wilayah (boleh diulang), mis. --kab makassar
   --limit <n>      batas jumlah pencarian/halaman per run (maps, detail, enrich)
   --fresh          abaikan cache tahap ini
+  --render         enrich: render website SPA lewat Chrome :9335 (jangan bersamaan dengan maps/detail)
   --no-ai          lewati klasifikasi AI (kasus ragu masuk daftar review)
 `;
 
@@ -29,6 +39,7 @@ const { values, positionals } = parseArgs({
 		kab: { type: 'string', multiple: true },
 		limit: { type: 'string' },
 		fresh: { type: 'boolean', default: false },
+		render: { type: 'boolean', default: false },
 		'no-ai': { type: 'boolean', default: false },
 		help: { type: 'boolean', short: 'h', default: false }
 	}
@@ -51,7 +62,8 @@ const stages = {
 	osm: async () => (await import('./sources/osm.js')).runOsm(common),
 	merge: async () => (await import('./steps/merge.js')).runMerge(),
 	detail: async () => (await import('./steps/detail.js')).runDetail(common),
-	enrich: async () => (await import('./steps/enrich.js')).runEnrich(common),
+	enrich: async () =>
+		(await import('./steps/enrich.js')).runEnrich({ ...common, render: values.render }),
 	classify: async () =>
 		(await import('./steps/classify.js')).runClassify({
 			ai: !values['no-ai'],

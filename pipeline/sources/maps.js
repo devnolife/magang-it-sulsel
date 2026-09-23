@@ -67,7 +67,10 @@ async function runOne(page, s, maxResults) {
 	const hasFeed = await page.$('div[role="feed"]');
 	if (!hasFeed) {
 		if (page.url().includes('/maps/place/') || (await page.$('h1.DUwDvf'))) {
-			await sleep(1500);
+			// Hasil tunggal: Maps baru mengganti URL ke /maps/place/...!1s<fid>!3d<lat>!4d<lng> ±4 detik
+			// kemudian. Sebelum itu URL masih URL pencarian (koordinatnya = pusat pencarian, bukan tempat).
+			for (let i = 0; i < 20 && !/\/maps\/place\/.*!1s0x/.test(page.url()); i++) await sleep(500);
+			await sleep(800);
 			const html = await mainPanelHtml(page);
 			const place = parsePlaceHtml(html, page.url(), { query: s.query });
 			return {

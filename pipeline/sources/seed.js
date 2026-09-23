@@ -48,6 +48,8 @@ export const SeedEntrySchema = z
 		query_maps: z.string().max(200).optional(),
 		cocok: z.array(regexStr).optional(),
 		tolak: regexStr.optional(),
+		/** Hanya satu per kab/kota (Diskominfo, BPS): listing lain yang lolos pola dilebur. */
+		unik: z.boolean().default(false),
 		catatan: z.string().optional()
 	})
 	.refine((e) => e.nama || e.label, 'nama atau label wajib diisi');

@@ -84,6 +84,13 @@ describe('helper nama & tautan', () => {
 			instagram: 'https://www.instagram.com/abc'
 		});
 		expect(klasifikasiTautan('https://wa.me/6281234567890').whatsapp).toBe('+6281234567890');
+		expect(
+			klasifikasiTautan('http://www.pln.co.id/%20%7C%20Playstore/Appstore%20:%20PLN%20Mobile%20App')
+				.website
+		).toBe('http://www.pln.co.id/');
+		expect(klasifikasiTautan(' https://contoh.id/profil | Makassar ').website).toBe(
+			'https://contoh.id/profil'
+		);
 	});
 
 	it('kecamatanDariAlamat membaca "Kec. X"', () => {
@@ -185,6 +192,37 @@ describe('kumpulkanMaps & klasterkan', () => {
 			['maps:0x2:0x2']
 		]);
 	});
+
+	it('telepon sama menggabungkan pin ganda, kecuali websitenya berbeda', () => {
+		const clusters = klasterkan([
+			tempat({ google_fid: '0x1:0x1', nama: 'CV Maju Jaya', telepon: '0411 123456' }),
+			tempat({
+				google_fid: '0x2:0x2',
+				nama: 'Maju Digital Office',
+				telepon: '+62411123456',
+				lat: -5.1505
+			}),
+			tempat({
+				google_fid: '0x3:0x3',
+				nama: 'Universitas Negeri Contoh',
+				telepon: '0411 865677',
+				website: 'https://unc.ac.id/',
+				lat: -5.16
+			}),
+			tempat({
+				google_fid: '0x4:0x4',
+				nama: 'ICT CENTER',
+				telepon: '(0411) 865677',
+				website: 'http://ict.unc.ac.id/',
+				lat: -5.1605
+			})
+		]);
+		expect(clusters.map((c) => c.map((t) => t.key).sort()).sort()).toEqual([
+			['maps:0x1:0x1', 'maps:0x2:0x2'],
+			['maps:0x3:0x3'],
+			['maps:0x4:0x4']
+		]);
+	});
 });
 
 describe('susunKandidat', () => {
@@ -216,6 +254,20 @@ describe('susunKandidat', () => {
 		expect(
 			susunKandidat([tempat({ nama: 'Tutup', status_tempat: 'tutup-permanen' })], geo)
 		).toMatchObject({ dibuang: 'tutup-permanen' });
+	});
+
+	it('membuang hasil Maps yang hanya berupa alamat gedung, bukan tempat usaha', () => {
+		const alamat = tempat({
+			nama: 'Jl. A. P. Pettarani No.9 Lt 3',
+			kategori: 'Akses Ali Coworking Space'
+		});
+		expect(susunKandidat([alamat], geo)).toEqual({
+			dibuang: 'alamat-saja',
+			nama: 'Jl. A. P. Pettarani No.9 Lt 3'
+		});
+		const usaha = susunKandidat([{ ...alamat, telepon: '0812-3456-7890' }], geo);
+		expect(usaha).not.toHaveProperty('dibuang');
+		expect(susunKandidat([{ ...alamat, jumlah_ulasan: 3 }], geo)).not.toHaveProperty('dibuang');
 	});
 });
 
@@ -439,5 +491,87 @@ describe('gabungSemua', () => {
 		]);
 		const k = r.kandidat.find((x) => x.seed);
 		expect(k?.google_fid).toBe('0xf3:0xf3');
+	});
+
+	it('instansi unik: listing ganda sekab/kota dilebur, provinsi/BPSDMP/kab lain tidak', () => {
+		const r = gabungSemua({
+			searches: [
+				{
+					id: 'makassar--dinas-komunikasi-dan-informatika',
+					query: 'dinas komunikasi dan informatika',
+					places: [
+						tempat({
+							google_fid: '0xf3:0xf3',
+							nama: 'Dinas Komunikasi dan Informatika',
+							kategori: 'Kantor Pemerintah Daerah',
+							jumlah_ulasan: 26,
+							lat: -5.11
+						}),
+						tempat({
+							google_fid: '0xf4:0xf4',
+							nama: 'Dinas Infokom',
+							kategori: 'Kantor Pemerintah',
+							telepon: '0411 123456',
+							lat: -5.14
+						}),
+						tempat({
+							google_fid: '0xf5:0xf5',
+							nama: 'Dinas Kominfo Provinsi Sulawesi Selatan',
+							kategori: 'Kantor Pemerintah',
+							lat: -5.17
+						}),
+						tempat({
+							google_fid: '0xf6:0xf6',
+							nama: 'BPSDMP Kominfo Makassar',
+							kategori: 'Kantor Pemerintah',
+							lat: -5.2
+						}),
+						tempat({
+							google_fid: '0xf7:0xf7',
+							nama: 'Dinas Kominfo',
+							kategori: 'Kantor Pemerintah',
+							lat: -5.4
+						})
+					]
+				}
+			],
+			details: new Map(),
+			osm: [],
+			seed: {
+				lowongan: [],
+				entri: [
+					/** @type {any} */ ({
+						key: 'instansi:diskominfo-makassar',
+						asal: 'instansi',
+						label: 'Dinas Komunikasi dan Informatika Kota Makassar',
+						jenis: 'instansi',
+						masuk: true,
+						kabkota: 'makassar',
+						unik: true,
+						cocok: ['\\b(dinas|diskominfo|kominfo)', 'kominfo|komunikasi|informatika|infokom'],
+						tolak: '\\b(pt|cv)\\b|bb?psdm\\w*|provinsi',
+						tags: [],
+						magang_bukti: []
+					})
+				]
+			},
+			geo
+		});
+		expect(r.instansi_dilebur).toEqual([
+			{
+				key: 'instansi:diskominfo-makassar',
+				nama: 'Dinas Infokom',
+				ke: 'Dinas Komunikasi dan Informatika Kota Makassar'
+			}
+		]);
+		const utama = r.kandidat.find((x) => x.seed);
+		expect(utama).toMatchObject({ google_fid: '0xf3:0xf3', telepon: '+62411123456' });
+		expect(utama?.anggota).toEqual(['maps:0xf3:0xf3', 'maps:0xf4:0xf4']);
+		expect(r.kandidat.map((x) => x.nama_asli).sort()).toEqual([
+			'BPSDMP Kominfo Makassar',
+			'Dinas Kominfo',
+			'Dinas Kominfo Provinsi Sulawesi Selatan',
+			'Dinas Komunikasi dan Informatika'
+		]);
 	});
 });

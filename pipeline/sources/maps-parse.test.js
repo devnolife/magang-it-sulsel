@@ -84,6 +84,18 @@ describe('maps-parse', () => {
 		expect(p?.alamat).toContain('Kec. Tamalate, Kota Makassar');
 	});
 
+	it('halaman alamat gedung tidak mengambil rating usaha di "Di tempat ini"', () => {
+		const html = `<div role="main"><h1>Jl. A. P. Pettarani No.9 Lt 3</h1><h2>Di tempat ini</h2>
+			<div role="article"><span role="img" aria-label="4,5 bintang 228 Ulasan"></span></div></div>`;
+		const p = parsePlaceHtml(html, 'https://www.google.com/maps/search/?api=1&query=x');
+		expect(p).toMatchObject({
+			nama: 'Jl. A. P. Pettarani No.9 Lt 3',
+			kategori: null,
+			rating: null
+		});
+		expect(p?.jumlah_ulasan).toBeNull();
+	});
+
 	it('mengenali halaman blokir', () => {
 		expect(isBlocked('https://www.google.com/sorry/index?continue=x', '')).toBe(true);
 		expect(

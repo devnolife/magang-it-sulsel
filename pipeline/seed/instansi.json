@@ -1,5 +1,5 @@
 {
-	"catatan": "Instansi & perusahaan dengan divisi IT. Setiap entri hanya masuk bila tempatnya ditemukan di Google Maps (hasil query_maps atau pencarian umum) dan namanya lolos pola `cocok` (semua harus cocok) tanpa kena `tolak`, di dalam kab/kota yang benar. Nama, alamat, dan kontak diambil dari Maps.",
+	"catatan": "Instansi & perusahaan dengan divisi IT. Setiap entri hanya masuk bila tempatnya ditemukan di Google Maps (hasil query_maps atau pencarian umum) dan namanya lolos pola `cocok` (semua harus cocok) tanpa kena `tolak`, di dalam kab/kota yang benar. Pengecualian: entri yang `alamat`-nya diisi dari situs resmi tetap masuk tanpa titik peta bila listing Maps-nya tidak ada. Nama tampil memakai `label`; alamat dan kontak diambil dari Maps. Entri `unik: true` (Diskominfo, BPS) hanya ada satu per kab/kota, jadi listing Maps lain yang lolos pola yang sama (pin ganda, kantor lama, nama lama) dilebur ke entri tersebut.",
 	"entri": [
 		{
 			"key": "instansi:diskominfo-sulsel",
@@ -7,6 +7,11 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "makassar",
+			"unik": true,
+			"alamat": "Jl. Urip Sumoharjo No. 269, Makassar, Sulawesi Selatan",
+			"website": "https://kominfo.sulselprov.go.id/",
+			"telepon": "0411-453203",
+			"email": "diskominfoprovsulsel@gmail.com",
 			"deskripsi": "Dinas pemerintah provinsi yang mengelola layanan TIK, aplikasi, jaringan, statistik sektoral, dan persandian.",
 			"tags": [
 				"pemerintah",
@@ -15,10 +20,11 @@
 			"query_maps": "Dinas Komunikasi Informatika Statistik dan Persandian Provinsi Sulawesi Selatan",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian",
+				"kominfo|komunikasi|informatika|persandian|infokom",
 				"provinsi|sulawesi selatan|sulsel"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b",
+			"catatan": "Tidak punya listing Maps sendiri (pencarian memunculkan Diskominfo Kota Makassar). Alamat & kontak dari kominfo.sulselprov.go.id, dicek 2026-09-23."
 		},
 		{
 			"key": "instansi:bps-sulsel",
@@ -26,6 +32,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "makassar",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -45,6 +52,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "makassar",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -53,9 +61,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kota Makassar",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|provinsi|sulawesi selatan|sulsel"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b|provinsi|sulawesi selatan|sulsel"
 		},
 		{
 			"key": "instansi:bps-makassar",
@@ -63,6 +71,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "makassar",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -81,6 +90,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "parepare",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -89,9 +99,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kota Parepare",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-parepare",
@@ -99,6 +109,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "parepare",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -117,6 +128,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "palopo",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -125,9 +137,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kota Palopo",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-palopo",
@@ -135,6 +147,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "palopo",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -153,6 +166,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "gowa",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -161,9 +175,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Gowa",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-gowa",
@@ -171,6 +185,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "gowa",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -189,6 +204,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "maros",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -197,9 +213,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Maros",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-maros",
@@ -207,6 +223,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "maros",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -225,6 +242,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "takalar",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -233,9 +251,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Takalar",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-takalar",
@@ -243,6 +261,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "takalar",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -261,6 +280,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "pangkep",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -269,9 +289,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Pangkajene dan Kepulauan",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-pangkep",
@@ -279,6 +299,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "pangkep",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -297,6 +318,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "barru",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -305,9 +327,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Barru",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-barru",
@@ -315,6 +337,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "barru",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -333,6 +356,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "bone",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -341,9 +365,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Bone",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-bone",
@@ -351,6 +375,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "bone",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -369,6 +394,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "soppeng",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -377,9 +403,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Soppeng",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-soppeng",
@@ -387,6 +413,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "soppeng",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -405,6 +432,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "wajo",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -413,9 +441,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Wajo",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-wajo",
@@ -423,6 +451,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "wajo",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -441,6 +470,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "sidrap",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -449,9 +479,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Sidenreng Rappang",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-sidrap",
@@ -459,6 +489,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "sidrap",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -477,6 +508,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "pinrang",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -485,9 +517,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Pinrang",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-pinrang",
@@ -495,6 +527,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "pinrang",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -513,6 +546,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "enrekang",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -521,9 +555,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Enrekang",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-enrekang",
@@ -531,6 +565,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "enrekang",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -549,6 +584,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "tana-toraja",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -557,9 +593,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Tana Toraja",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-tana-toraja",
@@ -567,6 +603,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "tana-toraja",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -585,6 +622,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "toraja-utara",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -593,9 +631,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Toraja Utara",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-toraja-utara",
@@ -603,6 +641,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "toraja-utara",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -621,6 +660,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "luwu",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -629,9 +669,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Luwu",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-luwu",
@@ -639,6 +679,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "luwu",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -657,17 +698,19 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "luwu-utara",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
 				"diskominfo"
 			],
-			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Luwu Utara",
+			"query_maps": "Diskominfo Luwu Utara",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b",
+			"catatan": "Listing Maps: \"Kantor Bidang Aptika Diskominfo Luwu Utata\" (salah ketik di Maps)."
 		},
 		{
 			"key": "instansi:bps-luwu-utara",
@@ -675,6 +718,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "luwu-utara",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -693,6 +737,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "luwu-timur",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -701,9 +746,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Luwu Timur",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-luwu-timur",
@@ -711,6 +756,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "luwu-timur",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -729,6 +775,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "sinjai",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -737,9 +784,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Sinjai",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-sinjai",
@@ -747,6 +794,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "sinjai",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -765,6 +813,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "bulukumba",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -773,9 +822,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Bulukumba",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-bulukumba",
@@ -783,6 +832,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "bulukumba",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -801,6 +851,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "bantaeng",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -809,9 +860,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Bantaeng",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-bantaeng",
@@ -819,6 +870,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "bantaeng",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -837,6 +889,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "jeneponto",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -845,9 +898,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Jeneponto",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-jeneponto",
@@ -855,6 +908,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "jeneponto",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -873,6 +927,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "selayar",
+			"unik": true,
 			"deskripsi": "Dinas pemerintah daerah yang mengelola layanan TIK, aplikasi, dan jaringan pemerintahan.",
 			"tags": [
 				"pemerintah",
@@ -881,9 +936,9 @@
 			"query_maps": "Dinas Komunikasi dan Informatika Kabupaten Kepulauan Selayar",
 			"cocok": [
 				"\\b(dinas|diskominfo|kominfo)",
-				"kominfo|komunikasi|informatika|persandian"
+				"kominfo|komunikasi|informatika|persandian|infokom"
 			],
-			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai"
+			"tolak": "\\b(pt|cv)\\b|workshop|kejuruan|\\bblk|sekolah|smk|universitas|kampus|fakultas|jurusan|toko|kementerian|balai|bb?psdm\\w*|balmon|spektrum|\\bloka\\b"
 		},
 		{
 			"key": "instansi:bps-selayar",
@@ -891,6 +946,7 @@
 			"jenis": "instansi",
 			"masuk": true,
 			"kabkota": "selayar",
+			"unik": true,
 			"deskripsi": "Instansi vertikal statistik; mengelola pengolahan data dan sistem informasi statistik.",
 			"tags": [
 				"pemerintah",
@@ -1053,7 +1109,7 @@
 			],
 			"query_maps": "UPT TIK Universitas Hasanuddin",
 			"cocok": [
-				"\\bTIK\\b|teknologi informasi|sistem informasi|pusat data|DSITD",
+				"\\bP?TIK\\b|teknologi (komunikasi dan )?informasi|sistem informasi|pusat data|DSITD",
 				"hasanuddin|unhas"
 			],
 			"tolak": "fakultas|departemen|prodi|program studi|jurusan|himpunan|laboratorium|\\blab\\b"
@@ -1064,6 +1120,7 @@
 			"label": "UPT TIK Universitas Negeri Makassar",
 			"jenis": "instansi",
 			"kabkota": "makassar",
+			"website": "http://ict.unm.ac.id/",
 			"deskripsi": "Unit pengelola teknologi informasi dan komunikasi kampus Universitas Negeri Makassar.",
 			"tags": [
 				"kampus",
@@ -1071,10 +1128,11 @@
 			],
 			"query_maps": "UPT TIK Universitas Negeri Makassar",
 			"cocok": [
-				"\\bTIK\\b|teknologi informasi|pusat komputer|puskom",
+				"\\bTIK\\b|\\bICT\\b|teknologi informasi|pusat komputer|puskom",
 				"UNM|negeri makassar"
 			],
-			"tolak": "fakultas|departemen|prodi|program studi|jurusan|himpunan|laboratorium|\\blab\\b"
+			"tolak": "fakultas|departemen|prodi|program studi|jurusan|himpunan|laboratorium|\\blab\\b",
+			"catatan": "Listing Maps bernama \"ICT CENTER\" (kategori Universitas Negeri, website ict.unm.ac.id); dicocokkan lewat domain."
 		},
 		{
 			"masuk": true,
@@ -1101,6 +1159,7 @@
 			"jenis": "instansi",
 			"kabkota": "makassar",
 			"website": "https://pdti.umi.ac.id",
+			"alamat": "Menara UMI Lt. 5, Jl. Urip Sumoharjo Km. 5, Karampuang, Kec. Panakkukang, Kota Makassar, Sulawesi Selatan 90231",
 			"deskripsi": "Unit Universitas Muslim Indonesia yang mengelola infrastruktur IT kampus dan sistem informasi terintegrasi.",
 			"tags": [
 				"kampus",
@@ -1111,7 +1170,8 @@
 				"PDTI|pusat data|teknologi informasi|\\bTIK\\b",
 				"UMI|muslim indonesia"
 			],
-			"tolak": "fakultas|prodi|program studi|jurusan|himpunan"
+			"tolak": "fakultas|prodi|program studi|jurusan|himpunan",
+			"catatan": "Tidak ada listing Maps sendiri. Alamat dari pdti.umi.ac.id, dicek 2026-09-23."
 		},
 		{
 			"masuk": true,

@@ -1,0 +1,4 @@
+{
+	"_petunjuk": "Keputusan manual yang menang atas aturan skor & AI. Kunci entri: key kandidat dari pipeline/cache/merged.json (mis. \"maps:0x2dbe...:0x1a2b...\" atau \"osm:node/123\"), key seed (\"kurasi:contoh.co.id\"), atau domain website (\"contoh.co.id\"). Isi: masuk (wajib, true/false); opsional jenis (software|konsultan|isp|agency|startup|instansi), alasan (tampil di laporan), nama (koreksi nama tampil), deskripsi, catatan. Jalankan ulang `classify` lalu `export` setelah mengubah file ini.",
+	"entri": {}
+}

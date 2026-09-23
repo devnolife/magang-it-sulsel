@@ -184,20 +184,36 @@ export function bersihkanNama(nama) {
 }
 
 /**
+ * Website isian pemilik listing kadang berekor teks
+ * ("http://www.pln.co.id/%20%7C%20Playstore/Appstore%20:%20PLN%20Mobile%20App"): potong di spasi pertama.
+ * @param {string} url
+ */
+export function bersihkanUrl(url) {
+	const i = url.trim().search(/\s|%20/i);
+	return i > 0
+		? url
+				.trim()
+				.slice(0, i)
+				.replace(/[|,;:]+$/, '')
+		: url.trim();
+}
+
+/**
  * Pisahkan tautan "website" yang sebenarnya akun media sosial.
  * @param {string | null | undefined} url
  * @returns {{ website: string | null, instagram: string | null, linkedin: string | null, whatsapp: string | null }}
  */
 export function klasifikasiTautan(url) {
 	const out = { website: null, instagram: null, linkedin: null, whatsapp: null };
-	const host = hostOf(url);
-	if (!url || !host) return out;
-	if (/(^|\.)instagram\.com$/.test(host)) return { ...out, instagram: url };
-	if (/(^|\.)linkedin\.com$/.test(host)) return { ...out, linkedin: url };
+	const bersih = url ? bersihkanUrl(url) : null;
+	const host = hostOf(bersih);
+	if (!bersih || !host) return out;
+	if (/(^|\.)instagram\.com$/.test(host)) return { ...out, instagram: bersih };
+	if (/(^|\.)linkedin\.com$/.test(host)) return { ...out, linkedin: bersih };
 	if (host === 'wa.me' || host.endsWith('whatsapp.com')) {
-		return { ...out, whatsapp: phoneFromWaUrl(url) };
+		return { ...out, whatsapp: phoneFromWaUrl(bersih) };
 	}
-	return { ...out, website: url };
+	return { ...out, website: bersih };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -283,6 +299,9 @@ export function samaTempat(a, b) {
 	if (a.nk && a.nk === b.nk && d <= 300) return true;
 	if (sim >= 0.5 && d <= 150) return true;
 	if (a.domain && a.domain === b.domain && d <= 150 && sim >= 0.2) return true;
+	// Aturan lemah nama (telepon, jarak sangat dekat) tidak berlaku bila websitenya berbeda: unit
+	// kampus/anak usaha sering memakai nomor induk yang sama ("ICT CENTER" vs "Universitas ...").
+	if (a.domain && b.domain && a.domain !== b.domain) return false;
 	if (a.phone && a.phone === b.phone && d <= 300) return true;
 	if (d <= 25 && sim >= 0.34) return true;
 	return false;
@@ -385,6 +404,22 @@ export function klasterkan(places) {
 // Susun kandidat
 
 /**
+ * Hasil Maps berupa alamat gedung/lantai ("Jl. X No.9 Lt 3"), bukan tempat usaha: baris keduanya
+ * berisi nama usaha di alamat itu, sedangkan usahanya sendiri muncul sebagai listing terpisah.
+ * @param {Tempat} t
+ */
+export function hanyaAlamat(t) {
+	return (
+		t.sumber === 'maps' &&
+		/^(jl|jln|jalan)\.?\s/i.test(t.nama) &&
+		t.rating == null &&
+		t.jumlah_ulasan == null &&
+		!t.telepon &&
+		!t.website
+	);
+}
+
+/**
  * @param {Tempat[]} members
  * @param {Geo} geo
  * @returns {Kandidat | { dibuang: string, nama: string }}
@@ -404,6 +439,7 @@ export function susunKandidat(members, geo) {
 	if (members.some((m) => m.status_tempat === 'tutup-permanen')) {
 		return { dibuang: 'tutup-permanen', nama: utama.nama };
 	}
+	if (members.every(hanyaAlamat)) return { dibuang: 'alamat-saja', nama: utama.nama };
 	const semua = [...maps, ...osm];
 	const pick = (/** @type {(t: Tempat) => any} */ f) =>
 		semua.map(f).find((v) => v != null && v !== '');
@@ -546,6 +582,48 @@ export function cocokkanSeed(e, ctx) {
 	return null;
 }
 
+/**
+ * Instansi `unik` (Diskominfo, BPS) hanya ada satu per kab/kota. Listing lain yang lolos pola seed
+ * yang sama adalah pin ganda, kantor lama, atau nama lama ("Dinas Infokom"), jadi dilebur ke entri
+ * seed supaya tidak tampil dua kali. Kontak yang kosong di entri utama diisi dari listing tersebut.
+ * @param {Kandidat[]} kandidat
+ * @param {SeedEntry[]} entri
+ * @returns {{ kandidat: Kandidat[], lebur: { key: string, nama: string, ke: string }[] }}
+ */
+export function leburInstansi(kandidat, entri) {
+	/** @type {Set<Kandidat>} */
+	const hapus = new Set();
+	/** @type {{ key: string, nama: string, ke: string }[]} */
+	const lebur = [];
+	for (const e of entri) {
+		if (e.asal !== 'instansi' || !e.unik || !e.kabkota || !e.cocok?.length) continue;
+		const utama = kandidat.find((k) => k.seed?.key === e.key);
+		if (!utama) continue;
+		for (const k of kandidat) {
+			if (k === utama || k.seed || hapus.has(k) || !lolosSeed(e, k)) continue;
+			for (const f of /** @type {const} */ ([
+				'telepon',
+				'whatsapp',
+				'email',
+				'website',
+				'instagram',
+				'linkedin',
+				'osm_url',
+				'osm_id'
+			])) {
+				if (utama[f] == null && k[f] != null) /** @type {any} */ (utama)[f] = k[f];
+			}
+			utama.anggota = [...new Set([...utama.anggota, ...k.anggota])].sort();
+			utama.queries = [...new Set([...utama.queries, ...k.queries])].sort();
+			utama.kategori = [...new Set([...utama.kategori, ...k.kategori])];
+			for (const s of k.sumber) if (!utama.sumber.includes(s)) utama.sumber.push(s);
+			hapus.add(k);
+			lebur.push({ key: e.key, nama: k.nama_asli, ke: utama.nama });
+		}
+	}
+	return { kandidat: kandidat.filter((k) => !hapus.has(k)), lebur };
+}
+
 /** Kategori Maps/OSM kantor: dipilih lebih dulu daripada gerai/sekolah bernama mirip. */
 const KANTOR = /pemerintah|dinas|instansi|badan|kantor/i;
 
@@ -598,20 +676,21 @@ function terapkanSeed(k, e) {
 }
 
 /**
- * Kandidat dari seed saja (tanpa tempat Maps/OSM): hanya untuk kurasi `masuk: true` yang
- * kab/kotanya diketahui.
+ * Kandidat dari seed saja (tanpa tempat Maps/OSM): kurasi `masuk: true` yang kab/kotanya
+ * diketahui, atau instansi yang alamatnya diisi dari situs resmi.
  * @param {SeedEntry} e
  * @returns {Kandidat | null}
  */
 function kandidatDariSeed(e) {
 	const kabkota = e.kabkota ?? kabkotaFromText(e.alamat);
-	if (!kabkota || !e.nama) return null;
+	const nama = e.nama ?? e.label;
+	if (!kabkota || !nama) return null;
 	const tautan = klasifikasiTautan(e.website);
 	/** @type {Kandidat} */
 	const k = {
 		key: e.key,
-		nama: e.nama,
-		nama_asli: e.nama,
+		nama,
+		nama_asli: nama,
 		kategori: [],
 		tags_osm: null,
 		alamat: null,
@@ -774,7 +853,7 @@ export function gabungSemua(input) {
 			terapkanSeed(hit.k, e);
 			continue;
 		}
-		if (e.masuk === true && e.asal === 'kurasi') {
+		if (e.masuk === true && (e.asal === 'kurasi' || e.alamat)) {
 			const k = kandidatDariSeed(e);
 			if (k) {
 				kandidat.push(k);
@@ -790,21 +869,24 @@ export function gabungSemua(input) {
 			});
 		}
 	}
-	const low = tempelLowongan(kandidat, input.seed.lowongan);
-	kandidat.sort((a, b) => a.key.localeCompare(b.key));
+	const lebur = leburInstansi(kandidat, input.seed.entri);
+	const low = tempelLowongan(lebur.kandidat, input.seed.lowongan);
+	lebur.kandidat.sort((a, b) => a.key.localeCompare(b.key));
 	return {
-		kandidat,
+		kandidat: lebur.kandidat,
 		statistik: {
 			tempat_maps: mapsPlaces.length,
 			tempat_osm: input.osm.length,
 			klaster: clusters.length,
-			kandidat: kandidat.length,
+			kandidat: lebur.kandidat.length,
 			dibuang,
 			seed_cocok: seedCocok.length,
+			instansi_dilebur: lebur.lebur.length,
 			lowongan_cocok: low.cocok
 		},
 		seed_cocok: seedCocok,
 		seed_tanpa_tempat: seedTanpaTempat,
+		instansi_dilebur: lebur.lebur,
 		lowongan_tidak_cocok: low.tidakCocok.map((l) => `${l.judul} · ${l.perusahaan} (${l.lokasi})`)
 	};
 }
@@ -827,7 +909,7 @@ export function runMerge() {
 	console.log(
 		`✓ merge: ${s.tempat_maps} tempat Maps (${searches.length} pencarian) + ${s.tempat_osm} OSM → ${s.kandidat} kandidat`,
 		s.dibuang,
-		`· seed cocok ${s.seed_cocok}, tanpa tempat ${hasil.seed_tanpa_tempat.length} · lowongan cocok ${s.lowongan_cocok}`
+		`· seed cocok ${s.seed_cocok}, tanpa tempat ${hasil.seed_tanpa_tempat.length}, instansi dilebur ${s.instansi_dilebur} · lowongan cocok ${s.lowongan_cocok}`
 	);
 	return hasil;
 }
