@@ -4,6 +4,7 @@ import path from 'node:path';
 import { slugify } from '../../src/lib/shared/slug.js';
 import { KABKOTA, kabkotaLabel } from '../../src/lib/shared/wilayah.js';
 import { CONFIG_DIR } from '../lib/paths.js';
+import { seedSearches } from '../sources/seed.js';
 
 /** Query se-Kota Makassar (paling lengkap: kota terbesar, pusat industri IT Sulsel). */
 export const QUERY_MAKASSAR = [
@@ -69,8 +70,8 @@ function kecamatanMakassar() {
 }
 
 /**
- * Daftar pencarian terurut (Makassar dulu, lalu kab/kota lain).
- * @param {{ kab?: string[] }} [opts]
+ * Daftar pencarian terurut (Makassar dulu, lalu kab/kota lain, lalu pencarian entri seed).
+ * @param {{ kab?: string[], seed?: boolean }} [opts]
  * @returns {MapsSearch[]}
  */
 export function planMapsSearches(opts = {}) {
@@ -122,6 +123,7 @@ export function planMapsSearches(opts = {}) {
 			});
 		}
 	}
+	if (opts.seed !== false) out.push(...seedSearches({ kab: opts.kab }));
 	return out;
 }
 

@@ -1,0 +1,192 @@
+{
+	"catatan": "Kurasi manual dari sweep karirku (hunter.db, company_sites bercatatan SULSEL, 23 Sep 2026). Fakta dicek terhadap website masing-masing pada tanggal itu. masuk: true = selalu tampil, null = hanya melengkapi bila tempatnya ditemukan sumber lain, false = dikeluarkan.",
+	"entri": [
+		{
+			"key": "kurasi:afila.co.id",
+			"nama": "Afila Media Karya",
+			"jenis": "agency",
+			"masuk": true,
+			"website": "https://afila.co.id",
+			"deskripsi": "Creative agency yang berfokus pada kebutuhan instansi pemerintahan.",
+			"tags": ["creative agency", "pemerintahan"],
+			"query_maps": "Afila Media Karya"
+		},
+		{
+			"key": "kurasi:algenz.id",
+			"nama": "Algenz",
+			"jenis": "agency",
+			"masuk": true,
+			"kabkota": "makassar",
+			"website": "https://algenz.id",
+			"url_karir": "https://algenz.id/career",
+			"email": "contact@algenz.com",
+			"whatsapp": "6282322248822",
+			"instagram": "https://www.instagram.com/algenz.id",
+			"deskripsi": "Agensi kreatif dan digital marketing di Makassar. Halaman karirnya aktif, tetapi per 23 Sep 2026 belum ada lowongan.",
+			"tags": ["digital marketing", "kreatif"],
+			"query_maps": "Algenz Makassar"
+		},
+		{
+			"key": "kurasi:aliensoftindo.com",
+			"nama": "Alien Solusi Indonesia (Aliensoftindo)",
+			"jenis": "software",
+			"masuk": true,
+			"website": "https://aliensoftindo.com",
+			"deskripsi": "Pengembang software akuntansi dan pajak, sistem informasi akademik, dan sistem informasi rumah sakit.",
+			"tags": ["software akuntansi", "sistem informasi akademik", "SIMRS"],
+			"query_maps": "Aliensoftindo"
+		},
+		{
+			"key": "kurasi:cybermakassar.com",
+			"nama": "Cyber Makassar Development",
+			"jenis": "software",
+			"masuk": true,
+			"kabkota": "makassar",
+			"website": "https://cybermakassar.com",
+			"deskripsi": "Jasa pembuatan website, aplikasi, dan instalasi jaringan komputer. Tidak ada halaman karir; hubungi lewat halaman kontak di websitenya.",
+			"tags": ["website", "aplikasi", "jaringan"],
+			"query_maps": "Cyber Makassar Development"
+		},
+		{
+			"key": "kurasi:daengweb.id",
+			"nama": "Daeng Web",
+			"jenis": "startup",
+			"masuk": false,
+			"website": "https://daengweb.id",
+			"catatan": "Media/komunitas pemrograman, bukan perusahaan."
+		},
+		{
+			"key": "kurasi:fortinusa.co.id",
+			"nama": "PT Fortinusa",
+			"jenis": "software",
+			"masuk": true,
+			"kabkota": "makassar",
+			"website": "https://fortinusa.co.id",
+			"deskripsi": "Perusahaan teknologi informasi dan mekanikal-elektrikal: sistem informasi, aplikasi web dan mobile, solusi e-government.",
+			"peringatan": "Perusahaan ini menyatakan di websitenya tidak membuka lowongan kerja, agen, atau dropship, dan memperingatkan penipuan berkedok lowongan atas namanya.",
+			"tags": ["sistem informasi", "e-government"],
+			"query_maps": "PT Fortinusa Makassar"
+		},
+		{
+			"key": "kurasi:infanthree.com",
+			"nama": "Infanthree Digital Technology",
+			"jenis": "agency",
+			"masuk": true,
+			"kabkota": "makassar",
+			"website": "https://infanthree.com",
+			"email": "halo@infanthree.com",
+			"whatsapp": "6282196600066",
+			"instagram": "https://www.instagram.com/infanthreedigital",
+			"deskripsi": "Agensi pembuatan website, aplikasi, dan digital marketing di Makassar (CV Infanthree Digital Technology).",
+			"tags": ["website", "aplikasi", "digital marketing"],
+			"magang_bukti": [
+				{
+					"tipe": "kurasi",
+					"url": null,
+					"kutipan": "Aktif merekrut mahasiswa magang lewat Glints (catatan kurasi 23 Sep 2026).",
+					"tanggal": "2026-09-23"
+				}
+			],
+			"query_maps": "Infanthree Digital Technology Makassar",
+			"catatan": "Halaman /pages/lowongan-programmer-makassar basi (batas 30 Mar 2018), jangan dipakai sebagai lowongan. Domain lama digikreatif.co.id mati."
+		},
+		{
+			"key": "kurasi:karyastudio.com",
+			"nama": "Karya Studio",
+			"jenis": "software",
+			"masuk": true,
+			"kabkota": "makassar",
+			"website": "https://karyastudio.com",
+			"url_karir": "https://karyastudio.com/careers",
+			"email": "info@karyastudio.com",
+			"whatsapp": "6285526250131",
+			"instagram": "https://www.instagram.com/karya_studio",
+			"deskripsi": "Software house dan konsultan IT di Makassar (ERP, HRIS, aplikasi custom). Halaman karirnya tidak memuat daftar lowongan; semua ajakan mengarah ke WhatsApp.",
+			"tags": ["ERP", "HRIS", "aplikasi custom"],
+			"query_maps": "Karya Studio Makassar"
+		},
+		{
+			"key": "kurasi:magaugroup.co.id",
+			"nama": "Magau Group",
+			"jenis": "startup",
+			"masuk": null,
+			"kabkota": "makassar",
+			"alamat": "Jl. Pengayoman, Ruko Mirah II No. 25, Panakkukang, Makassar",
+			"website": "https://magaugroup.co.id",
+			"url_karir": "https://magaugroup.co.id/karir",
+			"magang_bukti": [
+				{
+					"tipe": "lowongan",
+					"url": "https://magaugroup.co.id/karir",
+					"kutipan": "Content Creator (Internship): sertifikat magang, sertifikasi BNSP, fee transport, proyek nyata; untuk mahasiswa tingkat akhir/fresh graduate.",
+					"tanggal": "2026-09-23"
+				}
+			],
+			"catatan": "Holding (solusi pendidikan, pelatihan, digital). Unit IT-nya PT Magau Jaya Digital (ptmjd.id)."
+		},
+		{
+			"key": "kurasi:makassarsoftware.com",
+			"nama": "Makassar Software",
+			"jenis": "software",
+			"masuk": true,
+			"kabkota": "makassar",
+			"website": "https://makassarsoftware.com",
+			"deskripsi": "Jasa pembuatan software dan aplikasi custom di Makassar. Tidak ada halaman karir.",
+			"tags": ["aplikasi custom"],
+			"query_maps": "Makassar Software"
+		},
+		{
+			"key": "kurasi:mentorbox.id",
+			"nama": "PT LPK Mentorbox Indonesia",
+			"jenis": "startup",
+			"masuk": false,
+			"website": "https://mentorbox.id",
+			"catatan": "Lembaga pelatihan kerja (LPK) grup Magau; LPK/kursus tidak dimasukkan."
+		},
+		{
+			"key": "kurasi:ptmjd.id",
+			"nama": "PT Magau Jaya Digital",
+			"jenis": "software",
+			"masuk": true,
+			"kabkota": "makassar",
+			"website": "https://ptmjd.id",
+			"url_karir": "https://magaugroup.co.id/karir",
+			"deskripsi": "Anak usaha Magau Group di bidang software, aplikasi, cloud, dan konsultasi IT. Rekrutmen lewat halaman karir Magau Group.",
+			"tags": ["software", "cloud", "konsultan IT"],
+			"magang_bukti": [
+				{
+					"tipe": "kurasi",
+					"url": "https://magaugroup.co.id/karir",
+					"kutipan": "Induk usahanya (Magau Group) membuka posisi magang bersertifikat lewat halaman karir ini.",
+					"tanggal": "2026-09-23"
+				}
+			],
+			"query_maps": "PT Magau Jaya Digital Makassar"
+		},
+		{
+			"key": "kurasi:upanastudio.com",
+			"nama": "Upana Studio",
+			"jenis": "agency",
+			"masuk": null,
+			"kabkota": "makassar",
+			"website": "https://upanastudio.com",
+			"status_web": "dibajak",
+			"peringatan": "Domain website lama perusahaan ini kini berisi konten judi. Jangan buka tautannya.",
+			"catatan": "Hanya melengkapi bila tempatnya masih ada di Maps."
+		},
+		{
+			"key": "kurasi:wasdlabs.com",
+			"nama": "WASD Labs",
+			"jenis": "software",
+			"masuk": true,
+			"kabkota": "makassar",
+			"website": "https://wasdlabs.com",
+			"email": "hello@wasdlabs.com",
+			"whatsapp": "6285656284641",
+			"instagram": "https://www.instagram.com/wasdlabs",
+			"deskripsi": "Studio teknologi di Makassar: web, game, VR/AR, dan IoT.",
+			"tags": ["web", "game", "VR/AR", "IoT"],
+			"query_maps": "WASD Labs Makassar"
+		}
+	]
+}
