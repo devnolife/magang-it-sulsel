@@ -44,3 +44,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # Sama seperti build di Vercel: adapter-vercel + DB di memori dari data/companies.json.
+      - name: Build (Vercel)
+        run: npm run build
+        env:
+          VERCEL: '1'

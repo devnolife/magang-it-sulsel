@@ -1,6 +1,12 @@
 import { defineConfig } from 'vitest/config';
-import adapter from '@sveltejs/adapter-node';
+import adapterNode from '@sveltejs/adapter-node';
+import adapterVercel from '@sveltejs/adapter-vercel';
 import { sveltekit } from '@sveltejs/kit/vite';
+
+// Vercel mengisi VERCEL=1 saat build. Di laptop dan VPS tetap adapter-node.
+const adapter = process.env.VERCEL
+	? adapterVercel({ regions: ['sin1'] })
+	: adapterNode({ precompress: true });
 
 export default defineConfig({
 	plugins: [
@@ -10,7 +16,7 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter({ precompress: true }),
+			adapter,
 			csp: {
 				mode: 'auto',
 				directives: {

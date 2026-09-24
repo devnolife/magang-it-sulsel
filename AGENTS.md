@@ -3,14 +3,18 @@
 Direktori perusahaan & instansi berunsur informatika di Sulawesi Selatan untuk mahasiswa
 yang mencari tempat magang. Dua bagian dalam satu repo:
 
-| Bagian                                                       | Lokasi             | Jalan di          |
-| ------------------------------------------------------------ | ------------------ | ----------------- |
-| Pipeline data (scrape Maps + OSM + website + klasifikasi AI) | `pipeline/`        | laptop maintainer |
-| Web SvelteKit (adapter-node + SQLite)                        | `src/`, `scripts/` | VPS Ubuntu        |
+| Bagian                                                       | Lokasi             | Jalan di               |
+| ------------------------------------------------------------ | ------------------ | ---------------------- |
+| Pipeline data (scrape Maps + OSM + website + klasifikasi AI) | `pipeline/`        | laptop maintainer      |
+| Web SvelteKit (adapter-node + SQLite)                        | `src/`, `scripts/` | VPS Ubuntu atau Vercel |
 
 Kontrak di antara keduanya: `data/companies.json` (divalidasi `src/lib/shared/company-schema.js`).
 Usulan, koreksi, dan cerita magang masuk lewat formulir GitHub Issues (`.github/ISSUE_TEMPLATE/`,
 URL dibuat `src/lib/isu.js`); belum ada formulir web maupun panel admin.
+
+Di Vercel (`VERCEL=1` saat build) `vite.config.js` memakai adapter-vercel, dan hook `init` di
+`src/hooks.server.js` membangun DB di memori dari dataset yang ter-bundle (`src/lib/server/db/memori.js`).
+Situs tidak boleh menulis ke DB saat berjalan, karena di Vercel perubahan itu hilang.
 
 ## Perintah
 

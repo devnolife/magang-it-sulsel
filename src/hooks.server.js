@@ -1,5 +1,9 @@
 // Header keamanan untuk semua respons halaman & endpoint. CSP diatur lewat kit.csp di vite.config.js.
 // Berkas statis (/_app, favicon) dilayani adapter-node sebelum hook ini; header-nya diatur di proxy.
+import { siapkanDb } from '$lib/server/db/index.js';
+
+/** @type {import('@sveltejs/kit').ServerInit} */
+export const init = siapkanDb;
 
 /** @type {Record<string, string>} */
 const HEADER = {

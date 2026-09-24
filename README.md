@@ -36,7 +36,7 @@ ada di [`data/laporan-pipeline.md`](data/laporan-pipeline.md).
 
 | Folder             | Isi                                                                                           |
 | ------------------ | --------------------------------------------------------------------------------------------- |
-| `src/`             | Aplikasi SvelteKit (adapter-node) + SQLite (better-sqlite3).                                  |
+| `src/`             | Aplikasi SvelteKit (adapter-node, atau adapter-vercel di Vercel) + SQLite (better-sqlite3).   |
 | `pipeline/`        | Pengumpulan data, dijalankan di laptop: Google Maps, OpenStreetMap, cek website, klasifikasi. |
 | `data/`            | Hasil pipeline yang di-commit: `companies.json` + laporan.                                    |
 | `scripts/`         | Migrasi & import DB, sembunyikan entri, uji asap, gambar siluet peta.                         |
@@ -107,7 +107,7 @@ Semua kiriman masuk sebagai isu GitHub dan diperiksa manual.
 | Usulan tempat       | Tambahkan entri ke `pipeline/seed/kurasi.json` (key `kurasi:<domain>`; isi `query_maps` supaya listing Maps-nya ikut dicari), lalu jalankan `seed`, `maps`, `merge`, `enrich`, `classify`, `export`.                                                            |
 | Koreksi data        | Tambahkan entri di `pipeline/overrides.json` dengan key `maps:<source_keys.google_fid>`, `osm:<tipe>/<id>`, `kurasi:<domain>`, atau domain website. Isinya `masuk`, dan opsional `jenis`, `nama`, `deskripsi`, `alasan`. Lalu jalankan `classify` dan `export`. |
 | Cerita magang       | Tambahkan bukti `{"tipe": "pengalaman", "url": "<link isu>", "kutipan": "…", "tanggal": "YYYY-MM-DD"}` ke `magang_bukti` entri kurasinya. Status tempat menjadi "Terbukti".                                                                                     |
-| Minta hapus / tutup | Override `"masuk": false`, lalu di server: `npm run db:sembunyikan -- <slug>`.                                                                                                                                                                                  |
+| Minta hapus / tutup | Override `"masuk": false`, lalu di server: `npm run db:sembunyikan -- <slug>`. Di Vercel: override, `classify`, `export`, lalu push.                                                                                                                            |
 
 `db:import` tidak pernah menghapus baris. Entri yang tidak ada lagi di JSON dilaporkan saat
 import, lalu bisa disembunyikan sekaligus dengan `npm run db:sembunyikan -- --hilang`. Entri yang
@@ -116,8 +116,28 @@ disembunyikan tetap tersembunyi walau data diimpor ulang. Lihat daftarnya dengan
 
 ## Deploy
 
+Tidak memakai Docker. Ada dua pilihan:
+
+### Vercel (paling mudah, gratis)
+
+1. Masuk ke [vercel.com](https://vercel.com) dengan akun GitHub, lalu **Add New → Project**.
+2. Pilih repo `magang-it-sulsel`, lalu **Deploy**. Framework SvelteKit terdeteksi otomatis, tidak
+   ada pengaturan yang perlu diubah. `PUBLIC_KONTAK_EMAIL` bisa diisi di Environment Variables bila
+   perlu.
+
+Saat build, Vercel mengisi `VERCEL=1` sehingga `vite.config.js` memakai `adapter-vercel` dengan
+fungsi di region Singapura (`sin1`). Vercel tidak punya disk tetap, jadi basis data dibangun di
+memori dari `data/companies.json` setiap kali fungsi mulai (sekitar 0,3 detik). Akibatnya:
+
+- Setiap push ke `main` otomatis di-deploy ulang, termasuk data baru.
+- `db:sembunyikan` tidak berlaku. Untuk menghapus entri, pakai override `"masuk": false`, jalankan
+  `classify` dan `export`, lalu commit dan push.
+- Paket Hobby hanya untuk pemakaian non-komersial. Direktori ini memenuhinya.
+
+### VPS
+
 Lihat [docs/deploy-vps.md](docs/deploy-vps.md): Ubuntu, Node, systemd, dan Caddy (HTTPS
-otomatis). Tidak memakai Docker.
+otomatis).
 
 ## Lisensi & atribusi
 
